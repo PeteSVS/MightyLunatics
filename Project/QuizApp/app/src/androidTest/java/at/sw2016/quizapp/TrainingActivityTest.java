@@ -10,23 +10,23 @@ import junit.framework.TestCase;
 
 /**
  * Created by Stefan on 03.05.2016.
+ * Created by Lukas on 03.05.2016.
  */
-public class QuizActivityTest extends ActivityInstrumentationTestCase2 {
+public class TrainingActivityTest extends ActivityInstrumentationTestCase2 {
 
     private Solo mySolo;
 
-    public QuizActivityTest(Class activityClass) {
-        super(activityClass);
+    public TrainingActivityTest() {
+        super(TrainingActivity.class);
     }
 
     public void setUp() throws Exception {
         super.setUp();
-
+        mySolo = new Solo(getInstrumentation(), getActivity());
     }
 
     public void testQuiz() {
 
-        mySolo.waitForActivity("QuizActivity");
 
         final TextView questionTextView = (TextView) mySolo.getCurrentActivity().findViewById(R.id.question_field);
 
