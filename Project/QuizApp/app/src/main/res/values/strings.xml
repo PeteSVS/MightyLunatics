@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QuizApp</string>
+    <string name="question">What is the answer of life the universe and everything?</string>
 </resources>
