@@ -1,8 +1,6 @@
 package at.sw2016.quizapp;
 
 import android.graphics.drawable.ColorDrawable;
-import android.provider.Settings;
-import android.support.v4.content.ContextCompat;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
@@ -48,7 +46,5 @@ public class ShowAnswerButtonsTest extends ActivityInstrumentationTestCase2 {
                 }
             }
         });
-
-
     }
 }

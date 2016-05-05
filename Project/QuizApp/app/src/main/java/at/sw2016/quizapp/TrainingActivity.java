@@ -42,5 +42,4 @@ public class TrainingActivity extends AppCompatActivity {
     public void changeColor(Button button){
         button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonFeedbackColor));
     }
-
 }
