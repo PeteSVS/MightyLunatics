@@ -47,4 +47,29 @@ public class ShowAnswerButtonsTest extends ActivityInstrumentationTestCase2 {
             }
         });
     }
+
+    public void testValidation(int id, final String buttonText) {
+
+        final Button button = (Button) mySolo.getCurrentActivity().findViewById(id);
+        getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                mySolo.clickOnButton(0);
+                ColorDrawable buttonColor = (ColorDrawable) button.getBackground();
+                if (buttonColor != null) {
+                    assertEquals(buttonColor.getColor(), 0xFFB74D);
+                    buttonColor = (ColorDrawable) button.getBackground();
+
+                    if (button.getText() == "42")
+                        assertEquals(buttonColor.getColor(), 0x8BC34A);
+                    else
+                        assertEquals(buttonColor.getColor(), 0xF44336);
+                }
+
+
+            }
+        });
+
+    }
 }
