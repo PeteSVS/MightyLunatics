@@ -1,5 +1,6 @@
 package at.sw2016.quizapp;
 
+import android.graphics.drawable.ColorDrawable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
@@ -35,5 +36,15 @@ public class ShowAnswerButtonsTest extends ActivityInstrumentationTestCase2 {
         final Button button = (Button) mySolo.getCurrentActivity().findViewById(id);
         assertEquals(View.VISIBLE, button.getVisibility());
         assertEquals(buttonText , button.getText().toString());
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                button.performClick();
+                ColorDrawable buttonColor = (ColorDrawable) button.getBackground();
+                if( buttonColor != null){
+                    assertEquals(buttonColor.getColor(), 0xFFB74D);
+                }
+            }
+        });
     }
 }
