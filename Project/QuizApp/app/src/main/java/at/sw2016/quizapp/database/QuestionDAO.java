@@ -93,6 +93,8 @@ public class QuestionDao extends BasisDao {
             default:
                 break;
         }
+
+        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_CATEGORY, getCategory(question.getCategory()));
         return values;
     }
 
@@ -197,5 +199,28 @@ public class QuestionDao extends BasisDao {
                 break;
         }
         return question;
+    }
+
+    protected int getCategory(Category category){
+        switch (category) {
+            case SPORT:
+                return 1;
+            case MOVIE:
+                return 2;
+            case MUSIC:
+                return 3;
+            case GEOGRAPHY:
+                return 4;
+            case HISTORY:
+                return 5;
+            case TECHNOLOGY:
+                return 6;
+            case BUSINESS:
+                return 7;
+            case GAMEING:
+                return 8;
+            default:
+                return 0;
+        }
     }
 }
