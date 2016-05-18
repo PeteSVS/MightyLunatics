@@ -72,17 +72,23 @@ public class DatabaseTest extends AndroidTestCase {
 
     @LargeTest
     public void testRandomQuestion() throws Exception {
-        Question testQuestion = new Question();
-        testQuestion.setQuestion("Welche Antwort ist richtig?");
-        testQuestion.setAnswer1("1");
-        testQuestion.setAnswer2("2");
-        testQuestion.setAnswer3("3");
-        testQuestion.setAnswer4("4");
-        testQuestion.setCorrectAnswer("1");
-        testQuestion.setCategory(Category.HISTORY);
-        long id = questionDao.addQuestion(testQuestion);
-        Question answerQuestion = questionDao.getRandomQuestion();
-        assertEquals(answerQuestion.getQuestion(), testQuestion.getQuestion());
-        questionDao.deleteQuestion(testQuestion);
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(getContext().getAssets().open("testCSV.csv"));
+            questionDao.insertCSVFileIntoTable(inputStreamReader);
+            Question question = questionDao.getRandomQuestion();
+            assertTrue(resultContainsCorrectString(question.getQuestion()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected boolean resultContainsCorrectString(String result){
+        String[] possibilities = {"Wie alt ist unser Universum?", "Wofuer steht HD in Bezug zu Bildschirmen?", "Was ist keine Programmiersprache?", "Um welches Metall handelt es sich bei AU?"};
+        for(String possibility : possibilities){
+            if(possibility.equals(result)){
+                return true;
+            }
+        }
+        return false;
     }
 }
