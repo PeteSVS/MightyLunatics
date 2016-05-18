@@ -1,14 +1,11 @@
 package at.sw2016.quizapp;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.view.View;
-import android.widget.TextView;
 
-import com.robotium.solo.Solo;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import at.sw2016.quizapp.database.QuestionDao;
 import at.sw2016.quizapp.model.Question;
@@ -48,6 +45,20 @@ public class DatabaseTest extends AndroidTestCase {
         long id = questionDao.addQuestion(testQuestion);
         Question answerQuestion = questionDao.getQuestion(id);
         assertEquals(answerQuestion.getQuestion(), testQuestion.getQuestion());
+        questionDao.deleteQuestion(testQuestion);
     }
 
+    @LargeTest
+    public void testInsertCsv() {
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(getContext().getAssets().open("testCSV.csv"));
+            questionDao.insertCSVFileIntoTable(inputStreamReader);
+            Question question = questionDao.getQuestion(1);
+            assertEquals(question.getQuestion(), "Wie alt ist unser Universum?");
+            assertEquals(question.getCategory(), Category.HISTORY);
+            assertFalse("Wie alt ist unser Universum nicht?".equals(question.getQuestion()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
