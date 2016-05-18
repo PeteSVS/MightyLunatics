@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
@@ -64,9 +63,7 @@ public class QuestionDao extends BasisDao {
         return question;
     }
 
-    public void insertCSVFileIntoTable(InputStreamReader fileReader) throws FileNotFoundException, IOException {
-
-        //FileReader file = new FileReader(getContext().getAssets().open(fileName));
+    public void insertCSVFileIntoTable(InputStreamReader fileReader) throws IOException {
         BufferedReader buffer = new BufferedReader(fileReader);
         String line;
         getDatabase().beginTransaction();
