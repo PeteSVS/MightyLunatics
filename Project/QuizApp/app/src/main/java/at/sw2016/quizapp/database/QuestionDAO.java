@@ -13,6 +13,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import at.sw2016.quizapp.model.Question;
 import at.sw2016.quizapp.utils.AnswerNumber;
 import at.sw2016.quizapp.utils.Category;
@@ -30,6 +39,7 @@ public class QuestionDao extends BasisDao {
         ContentValues values = new ContentValues();
         values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_QUESTION, question.getQuestion());
         values = addAnswers(values, question);
+        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_CATEGORY, getCategory(question.getCategory()));
         long id = getDatabase().insert(QuestionHelper.QuestionEntry.TABLE_NAME, null, values);
         question.setId(id);
         return id;
@@ -82,14 +92,41 @@ public class QuestionDao extends BasisDao {
         return question;
     }
 
+    public void insertCSVFileIntoTable(InputStreamReader fileReader) throws IOException {
+        BufferedReader buffer = new BufferedReader(fileReader);
+        String line;
+        getDatabase().beginTransaction();
+        while ((line = buffer.readLine()) != null) {
+            ContentValues values = generateQuestionEntry(line);
+            getDatabase().insert(QuestionHelper.QuestionEntry.TABLE_NAME, null, values);
+        }
+        getDatabase().setTransactionSuccessful();
+        getDatabase().endTransaction();
+    }
+
+    protected ContentValues generateQuestionEntry(String string){
+        String[] str = string.split(";");
+        ContentValues values = new ContentValues();
+        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_QUESTION, str[0]);
+        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_CORRECT_ANSWER, str[1]);
+        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_ANSWER_2, str[2]);
+        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_ANSWER_3, str[3]);
+        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_ANSWER_4, str[4]);
+        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_CATEGORY, str[5]);
+        return values;
+    }
+
     protected ContentValues addAnswers(ContentValues values, Question question){
 
         if(question.getCorrectAnswer() == null) {
             return values;
         }
-
         values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_CORRECT_ANSWER, question.getCorrectAnswer());
+        values = addWrongAnswers(values, question);
+        return values;
+    }
 
+    protected ContentValues addWrongAnswers(ContentValues values, Question question) {
         switch (findCorrectAnswer(question)){
             case ANSWER_1:
                 values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_ANSWER_2, question.getAnswer2());
@@ -114,12 +151,9 @@ public class QuestionDao extends BasisDao {
             default:
                 break;
         }
-
-        values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_CATEGORY, getCategory(question.getCategory()));
         return values;
     }
-
-    protected AnswerNumber findCorrectAnswer(Question question){
+        protected AnswerNumber findCorrectAnswer(Question question){
         if(question.getCorrectAnswer().equals(question.getAnswer1())) {
             return AnswerNumber.ANSWER_1;
         }
