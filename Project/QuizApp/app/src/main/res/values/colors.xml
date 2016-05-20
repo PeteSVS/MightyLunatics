@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="buttonFeedbackColor">#FFB74D</color>
+    <color name="buttonCorrectAnswer">#8BC34A</color>
+    <color name="buttonWrongAnswer">#F44336</color>
 </resources>
