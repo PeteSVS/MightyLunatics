@@ -39,11 +39,10 @@ public class ShowAnswerButtonsTest extends ActivityInstrumentationTestCase2 {
         final Button button = (Button) mySolo.getCurrentActivity().findViewById(id);
         assertEquals(View.VISIBLE, button.getVisibility());
         assertTrue(button.getText().toString().length() > 0);
-                button.performClick();
-                ColorDrawable buttonColor = (ColorDrawable) button.getBackground();
-                /*if( buttonColor != null){
-                    assertEquals(buttonColor.getColor(), 0xFFB74D);
-                }*/
-
+        button.performClick();
+        ColorDrawable buttonColor = (ColorDrawable) button.getBackground();
+        if( buttonColor != null){
+            assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonFeedbackColor));
+        }
     }
 }
