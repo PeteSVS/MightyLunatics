@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import at.sw2016.quizapp.R;
+import at.sw2016.quizapp.application.QuizApplication;
+import at.sw2016.quizapp.model.Question;
 
 public class TrainingActivity extends AppCompatActivity {
 
@@ -17,22 +19,24 @@ public class TrainingActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_training);
 
+        final QuizApplication application = (QuizApplication) getApplicationContext();
+        Question question = application.getQuestionDao().getRandomQuestion();
+
         // globally
         TextView questionTextView = (TextView)findViewById(R.id.question_field);
         if (questionTextView != null) {
-            questionTextView.setText(getString(R.string.question));
+            questionTextView.setText(question.getQuestion());
         }
-
-        createButton(R.id.upper_left_button, R.string.upperLeftButton);
-        createButton(R.id.upper_right_button, R.string.upperRightButton);
-        createButton(R.id.lower_left_button, R.string.lowerLeftButton);
-        createButton(R.id.lower_right_button, R.string.lowerRightButton);
+        createButton(R.id.upper_left_button, question.getAnswer1());
+        createButton(R.id.upper_right_button, question.getAnswer2());
+        createButton(R.id.lower_left_button, question.getAnswer3());
+        createButton(R.id.lower_right_button, question.getAnswer4());
     }
 
-    public void createButton(int id, int text){
+    public void createButton(int id, String text){
         Button button = (Button) findViewById(id);
         if(button != null) {
-            button.setText(getString(text));
+            button.setText(text);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     changeColor((Button) v);
