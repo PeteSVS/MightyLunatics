@@ -42,6 +42,8 @@ public class QuestionHelper {
 
     private static final String SELECT_QUESTION_BY_ID = "SELECT * FROM " + QuestionEntry.TABLE_NAME + " WHERE " + QuestionEntry.COLUMN_NAME_ENTRY_ID + " = ";
 
+    private static final String SELECT_RANDOM_QUESTION = "SELECT * FROM " + QuestionEntry.TABLE_NAME + " ORDER BY RANDOM() LIMIT 1;";
+
     public static String getCreateQuestionEntry() {
         return CREATE_QUESTION_ENTRY;
     }
@@ -57,4 +59,9 @@ public class QuestionHelper {
     public static String getSelectQuestionById(long id) {
         return SELECT_QUESTION_BY_ID + id;
     }
+
+    public static String getSelectRandomQuestion() {
+        return SELECT_RANDOM_QUESTION;
+    }
+
 }

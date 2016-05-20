@@ -4,6 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -40,6 +48,27 @@ public class QuestionDao extends BasisDao {
     public void deleteQuestion(Question question) {
         SQLiteDatabase db = this.getDbHelper().getWritableDatabase();
         db.delete(QuestionHelper.QuestionEntry.TABLE_NAME, QuestionHelper.getDeleteQuestionEntry(), new String[] {String.valueOf(question.getId())});
+    }
+
+    public Question getRandomQuestion(){
+        Question question = new Question();
+        SQLiteDatabase db = this.getDbHelper().getReadableDatabase();
+        String query = QuestionHelper.getSelectRandomQuestion();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        if (cursor == null) {
+            return null;
+        }
+        question.setId(cursor.getLong(cursor.getColumnIndex(QuestionHelper.QuestionEntry.COLUMN_NAME_ENTRY_ID)));
+        question.setQuestion(cursor.getString(cursor.getColumnIndex(QuestionHelper.QuestionEntry.COLUMN_NAME_QUESTION)));
+        question.setCorrectAnswer(cursor.getString(cursor.getColumnIndex(QuestionHelper.QuestionEntry.COLUMN_NAME_CORRECT_ANSWER)));
+        question = setAnswers(question, cursor);
+        question = setCategory(question, cursor);
+
+        return question;
     }
 
     public Question getQuestion(long questionId) {
@@ -92,9 +121,12 @@ public class QuestionDao extends BasisDao {
         if(question.getCorrectAnswer() == null) {
             return values;
         }
-
         values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_CORRECT_ANSWER, question.getCorrectAnswer());
+        values = addWrongAnswers(values, question);
+        return values;
+    }
 
+    protected ContentValues addWrongAnswers(ContentValues values, Question question) {
         switch (findCorrectAnswer(question)){
             case ANSWER_1:
                 values.put(QuestionHelper.QuestionEntry.COLUMN_NAME_ANSWER_2, question.getAnswer2());
@@ -119,11 +151,9 @@ public class QuestionDao extends BasisDao {
             default:
                 break;
         }
-
         return values;
     }
-
-    protected AnswerNumber findCorrectAnswer(Question question){
+        protected AnswerNumber findCorrectAnswer(Question question){
         if(question.getCorrectAnswer().equals(question.getAnswer1())) {
             return AnswerNumber.ANSWER_1;
         }

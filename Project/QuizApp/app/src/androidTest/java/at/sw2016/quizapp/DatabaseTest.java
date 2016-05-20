@@ -1,5 +1,14 @@
 package at.sw2016.quizapp;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.AndroidTestCase;
+import android.test.RenamingDelegatingContext;
+import android.test.suitebuilder.annotation.LargeTest;
+import android.view.View;
+import android.widget.TextView;
+
+import com.robotium.solo.Solo;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -45,7 +54,6 @@ public class DatabaseTest extends AndroidTestCase {
         long id = questionDao.addQuestion(testQuestion);
         Question answerQuestion = questionDao.getQuestion(id);
         assertEquals(answerQuestion.getQuestion(), testQuestion.getQuestion());
-        questionDao.deleteQuestion(testQuestion);
     }
 
     @LargeTest
@@ -60,5 +68,27 @@ public class DatabaseTest extends AndroidTestCase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @LargeTest
+    public void testRandomQuestion() throws Exception {
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(getContext().getAssets().open("testCSV.csv"));
+            questionDao.insertCSVFileIntoTable(inputStreamReader);
+            Question question = questionDao.getRandomQuestion();
+            assertTrue(resultContainsCorrectString(question.getQuestion()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected boolean resultContainsCorrectString(String result){
+        String[] possibilities = {"Wie alt ist unser Universum?", "Wofuer steht HD in Bezug zu Bildschirmen?", "Was ist keine Programmiersprache?", "Um welches Metall handelt es sich bei AU?"};
+        for(String possibility : possibilities){
+            if(possibility.equals(result)){
+                return true;
+            }
+        }
+        return false;
     }
 }
