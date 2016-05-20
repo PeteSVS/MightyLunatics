@@ -5,9 +5,10 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.robotium.solo.Solo;
+
+import at.sw2016.quizapp.activities.TrainingActivity;
 
 /**
  * Created by Stefan on 03.05.2016.

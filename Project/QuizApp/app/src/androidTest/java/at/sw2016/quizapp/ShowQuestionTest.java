@@ -6,7 +6,9 @@ import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
-import junit.framework.TestCase;
+import at.sw2016.quizapp.activities.TrainingActivity;
+
+import at.sw2016.quizapp.activities.TrainingActivity;
 
 /**
  * Created by Stefan on 05.05.2016.
