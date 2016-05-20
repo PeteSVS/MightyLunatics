@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".TrainingActivity"
+    tools:context=".activities.TrainingActivity"
     android:background="#ff9800"
     android:orientation="vertical">
 
