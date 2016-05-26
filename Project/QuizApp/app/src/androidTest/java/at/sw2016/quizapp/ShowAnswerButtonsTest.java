@@ -14,7 +14,7 @@ import at.sw2016.quizapp.activities.TrainingActivity;
  * Created by Stefan on 03.05.2016.
  * Created by Lukas on 03.05.2016.
  */
-public class ShowAnswerButtonsTest extends ActivityInstrumentationTestCase2 {
+public class ShowAnswerButtonsTest extends ActivityInstrumentationTestCase2<TrainingActivity> {
 
     private Solo mySolo;
 
