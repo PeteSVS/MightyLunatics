@@ -43,6 +43,7 @@ public class TrainingActivity extends AppCompatActivity {
         Button button = (Button) findViewById(id);
         if(button != null) {
             button.setText(text);
+            button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonDefaultColor));
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     changeColor((Button) v);
@@ -76,6 +77,12 @@ public class TrainingActivity extends AppCompatActivity {
                 button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonCorrectAnswer));
             }
         }, 1000);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                createQuestion();
+            }
+        }, 2000);
     }
 
     protected void styleWrongChoosenButton(final Button correctButton, final Button clickedButton){
@@ -89,6 +96,13 @@ public class TrainingActivity extends AppCompatActivity {
                 }
             }, 1000);
         }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                createQuestion();
+            }
+        }, 2000);
     }
 
     protected Button findCorrectButton(Button clickedButton){
