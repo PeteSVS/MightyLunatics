@@ -55,7 +55,6 @@ public class ValidateAnswerTest extends ActivityInstrumentationTestCase2<Trainin
         }
     }
 
-    @UiThreadTest
     public void testWrongButtonPressed() {
         int id = findValidAnswer();
         int invalid = findFirstInvalidAnswer();
@@ -116,7 +115,7 @@ public class ValidateAnswerTest extends ActivityInstrumentationTestCase2<Trainin
 
 
     protected int checkIfValid(int id){
-        final Button button = (Button) mySolo.getCurrentActivity().findViewById(id);
+        final Button button = (Button) getActivity().findViewById(id);
         assertEquals(View.VISIBLE, button.getVisibility());
         String answerText = button.getText().toString();
         if(answerText.equals(question.getCorrectAnswer())){
@@ -126,51 +125,59 @@ public class ValidateAnswerTest extends ActivityInstrumentationTestCase2<Trainin
     }
 
     public void correctButtonTest(int id) throws InterruptedException {
-        final Button button = (Button) mySolo.getCurrentActivity().findViewById(id);
-        button.performClick();
+        final Button button = (Button)getActivity().findViewById(id);
+        try {
+            this.runTestOnUiThread(new Runnable() {
+                public void run() {
+                    button.performClick();
+                }
+            });
+        } catch (Throwable throwable) {
+            //do something
+        }
         ColorDrawable buttonColor = (ColorDrawable) button.getBackground();
         if( buttonColor != null){
             assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonFeedbackColor));
         }
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                ColorDrawable buttonColor = (ColorDrawable) button.getBackground();
-                if( buttonColor != null){
-                    assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonCorrectAnswer));
-                }
-
-            }
-        }, 1000);
+        try {
+            Thread.sleep(1001);
+        } catch (InterruptedException e) {
+            //do something
+        }
+        buttonColor = (ColorDrawable) button.getBackground();
+        if( buttonColor != null){
+            assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonCorrectAnswer));
+        }
     }
 
     public void wrongButtonTest(int id, int invalid) throws InterruptedException {
-        final Button wrongButton = (Button) mySolo.getCurrentActivity().findViewById(invalid);
-        final Button correctButton = (Button) mySolo.getCurrentActivity().findViewById(id);
-        wrongButton.performClick();
+        final Button wrongButton = (Button) getActivity().findViewById(invalid);
+        final Button correctButton = (Button) getActivity().findViewById(id);
+        try {
+            this.runTestOnUiThread(new Runnable() {
+                public void run() {
+                    wrongButton.performClick();
+                }
+            });
+        } catch (Throwable throwable) {
+            //do something
+        }
         ColorDrawable buttonColor = (ColorDrawable) wrongButton.getBackground();
         if( buttonColor != null){
             assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonFeedbackColor));
         }
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                ColorDrawable buttonColor = (ColorDrawable) wrongButton.getBackground();
-                if( buttonColor != null){
-                    assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonWrongAnswer));
-                }
-                buttonColor = (ColorDrawable) correctButton.getBackground();
-                if( buttonColor != null){
-                    assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonFeedbackColor));
-                }
-
-            }
-        }, 1000);
+        try {
+            Thread.sleep(1001);
+        } catch (InterruptedException e) {
+            //do something
+        }
+        buttonColor = (ColorDrawable) wrongButton.getBackground();
+        if( buttonColor != null){
+            assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonWrongAnswer));
+        }
+        buttonColor = (ColorDrawable) correctButton.getBackground();
+        if( buttonColor != null){
+            assertEquals(buttonColor.getColor(), getActivity().getResources().getColor(R.color.buttonCorrectAnswer));
+        }
     }
 }
