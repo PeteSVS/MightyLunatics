@@ -210,13 +210,13 @@ public class QuestionDao extends BasisDao {
 
     protected String getAnswerColumn(int i){
         switch (i) {
-            case 1:
+            case 0:
                 return QuestionHelper.QuestionEntry.COLUMN_NAME_CORRECT_ANSWER;
-            case 2:
+            case 1:
                 return QuestionHelper.QuestionEntry.COLUMN_NAME_ANSWER_2;
-            case 3:
+            case 2:
                 return QuestionHelper.QuestionEntry.COLUMN_NAME_ANSWER_3;
-            case 4:
+            case 3:
                 return QuestionHelper.QuestionEntry.COLUMN_NAME_ANSWER_4;
             default:
                 return QuestionHelper.QuestionEntry.COLUMN_NAME_CORRECT_ANSWER;
