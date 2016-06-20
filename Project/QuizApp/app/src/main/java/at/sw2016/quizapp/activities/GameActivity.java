@@ -1,5 +1,6 @@
 package at.sw2016.quizapp.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -14,7 +15,6 @@ import at.sw2016.quizapp.R;
 import at.sw2016.quizapp.application.QuizApplication;
 import at.sw2016.quizapp.model.Question;
 
-
 public class GameActivity extends AppCompatActivity {
 
     private QuizApplication quizApplication;
@@ -22,13 +22,19 @@ public class GameActivity extends AppCompatActivity {
     private boolean alreadyClicked = false;
     private int correctAnswersCounter = 0;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training);
+        setContentView(R.layout.activity_game);
         quizApplication = (QuizApplication) getApplicationContext();
         createQuestion();
+
+        Context context = getApplicationContext();
+        CharSequence text = "You are now in Gaming Mode";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     public void createQuestion() {
