@@ -90,12 +90,12 @@ public class GameActivity extends AppCompatActivity {
     protected void styleCorrectChoosenButton(final Button button){
         final Handler handler = new Handler();
 
-        Toast.makeText(getApplicationContext(),"Correct answer number " + correctAnswersCounter,Toast.LENGTH_SHORT).show();
 
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonCorrectAnswer));
+                Toast.makeText(getApplicationContext(),"Correct answer number " + correctAnswersCounter,Toast.LENGTH_SHORT).show();
             }
         }, 1000);
         handler.postDelayed(new Runnable() {
