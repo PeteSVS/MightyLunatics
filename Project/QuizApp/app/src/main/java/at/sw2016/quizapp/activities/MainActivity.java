@@ -9,6 +9,16 @@ import at.sw2016.quizapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    public int getHighscore() {
+        return highscore;
+    }
+
+    public void setHighscore(int highscore) {
+        this.highscore = highscore;
+    }
+
+    private int highscore = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +48,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void showHighscore(View view)
+    public void showHighscore(View view){
 
-    {
         setContentView(R.layout.highscore);
     }
 }

@@ -2,6 +2,7 @@ package at.sw2016.quizapp.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -22,6 +23,7 @@ public class GameActivity extends AppCompatActivity {
     private QuizApplication quizApplication;
     private Question currentQuestion;
     private boolean alreadyClicked = false;
+
     private int correctAnswersCounter = 0;
 
     @Override
@@ -116,7 +118,6 @@ public class GameActivity extends AppCompatActivity {
                 public void run() {
                     clickedButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonWrongAnswer));
                     correctButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonCorrectAnswer));
-                    Toast.makeText(getApplicationContext(),"GAME OVER",Toast.LENGTH_LONG).show();
                 }
             }, 1000);
         }
@@ -126,9 +127,14 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
                 //createQuestion();
                 //create game over activity here
+        GameActivity.this.finish();
             }
         }, 3000);
-        this.finish();
+
+        Intent intent = new Intent(this, GameOverActivity.class);
+        intent.putExtra("correctAnswersCounter", correctAnswersCounter);
+        startActivity(intent);
+
     }
 
     protected Button findCorrectButton(Button clickedButton){

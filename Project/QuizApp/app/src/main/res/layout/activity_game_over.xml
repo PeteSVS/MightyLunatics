@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="111dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="HIGHSCORE"
+        android:text="GAME OVER"
         android:id="@+id/textView2"
         android:textSize="50dp"
         android:layout_weight="0.33" />
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Your Highscore:"
+        android:text="Your Score:"
         android:textAlignment="center"
         android:id="@+id/textView3"
         android:textSize="25dp"
@@ -36,7 +36,17 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.32" />
 
-
+    <Button
+        android:layout_width="186dp"
+        android:layout_height="wrap_content"
+        android:text="New Game"
+        android:id="@+id/button"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.12"
+        android:clickable="true"
+        android:enabled="true"
+        android:onClick="restartGame"
+        android:background="#EF6C00" />
 
     <Space
         android:layout_width="1dp"
