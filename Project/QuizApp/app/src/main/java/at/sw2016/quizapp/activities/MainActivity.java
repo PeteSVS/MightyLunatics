@@ -17,6 +17,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void backToMenu(View view)
+
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     public void startTrainingActivity(View view)
 
     {
