@@ -1,18 +1,11 @@
 package at.sw2016.quizapp.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.sql.SQLException;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import at.sw2016.quizapp.R;
-import at.sw2016.quizapp.database.DatabaseHelper;
-import at.sw2016.quizapp.database.QuestionDao;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,8 +13,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.menu);
+
+    }
+
+    public void startTrainingActivity(View view)
+
+    {
         Intent intent = new Intent(this, TrainingActivity.class);
         startActivity(intent);
+    }
+
+    public void startGameActivity(View view)
+
+    {
+        //setContentView(R.layout.activity_main);
+        Intent intent = new Intent(this, TrainingActivity.class);
+        startActivity(intent);
+    }
+
+    public void showHighscore(View view)
+
+    {
+        setContentView(R.layout.highscore);
     }
 }
