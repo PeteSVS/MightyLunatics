@@ -2,14 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="#ff9800">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="101dp"
+        android:layout_height="111dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Highscore Dummy Page"
+        android:text="Highscore"
         android:id="@+id/textView2"
+        android:textSize="50dp"
+        android:layout_weight="0.33" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="177dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Correct Answers:                           3  "
+        android:id="@+id/textView3"
+        android:textSize="25dp"
         android:layout_gravity="center_vertical"
-        android:layout_weight="0.67" />
+        android:layout_weight="0.15" />
+
+    <Button
+        android:layout_width="186dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:id="@+id/BackToMenuButton"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.09"
+        android:clickable="true"
+        android:enabled="true"
+        android:onClick="backToMenu"
+        android:background="#EF6C00" />
 </LinearLayout>
