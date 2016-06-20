@@ -16,6 +16,7 @@ public class TrainingActivity extends AppCompatActivity {
 
     private QuizApplication quizApplication;
     private Question currentQuestion;
+    private boolean alreadyClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class TrainingActivity extends AppCompatActivity {
         createButton(R.id.upper_right_button, getCurrentQuestion().getAnswer2());
         createButton(R.id.lower_left_button, getCurrentQuestion().getAnswer3());
         createButton(R.id.lower_right_button, getCurrentQuestion().getAnswer4());
+
+        alreadyClicked = false;
     }
 
     public void createButton(int id, String text){
@@ -46,8 +49,12 @@ public class TrainingActivity extends AppCompatActivity {
             button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonDefaultColor));
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    changeColor((Button) v);
-                    validateAnswer((Button) v);
+                    if(alreadyClicked == false){
+                        alreadyClicked = true;
+                        changeColor((Button) v);
+                        validateAnswer((Button) v);
+
+                    }
                 }
             });
         }

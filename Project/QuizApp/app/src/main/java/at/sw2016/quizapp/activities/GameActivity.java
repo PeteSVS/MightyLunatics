@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.LogPrinter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import at.sw2016.quizapp.R;
 import at.sw2016.quizapp.application.QuizApplication;
@@ -17,6 +19,8 @@ public class GameActivity extends AppCompatActivity {
 
     private QuizApplication quizApplication;
     private Question currentQuestion;
+    private boolean alreadyClicked = false;
+    private int correctAnswersCounter = 0;
 
 
     @Override
@@ -39,6 +43,8 @@ public class GameActivity extends AppCompatActivity {
         createButton(R.id.upper_right_button, getCurrentQuestion().getAnswer2());
         createButton(R.id.lower_left_button, getCurrentQuestion().getAnswer3());
         createButton(R.id.lower_right_button, getCurrentQuestion().getAnswer4());
+
+        alreadyClicked = false;
     }
 
     public void createButton(int id, String text){
@@ -48,8 +54,11 @@ public class GameActivity extends AppCompatActivity {
             button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonDefaultColor));
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    changeColor((Button) v);
-                    validateAnswer((Button) v);
+                    if(alreadyClicked == false){
+                        alreadyClicked = true;
+                        changeColor((Button) v);
+                        validateAnswer((Button) v);
+                    }
                 }
             });
         }
@@ -64,6 +73,7 @@ public class GameActivity extends AppCompatActivity {
             return;
 
         if(button.getText().equals(currentQuestion.getCorrectAnswer())){
+            correctAnswersCounter++;
             styleCorrectChoosenButton(button);
         } else {
             Button correctButton = findCorrectButton(button);
@@ -73,6 +83,9 @@ public class GameActivity extends AppCompatActivity {
 
     protected void styleCorrectChoosenButton(final Button button){
         final Handler handler = new Handler();
+
+        Toast.makeText(getApplicationContext(),"Correct answer number " + correctAnswersCounter,Toast.LENGTH_SHORT).show();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
