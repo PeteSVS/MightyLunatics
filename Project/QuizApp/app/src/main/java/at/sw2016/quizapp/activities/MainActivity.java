@@ -27,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public void startGameActivity(View view)
 
     {
-        //setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this, TrainingActivity.class);
+        Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
 
