@@ -2,10 +2,10 @@ package at.sw2016.quizapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,11 +16,13 @@ import at.sw2016.quizapp.R;
 import at.sw2016.quizapp.application.QuizApplication;
 import at.sw2016.quizapp.model.Question;
 
-public class TrainingActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     private QuizApplication quizApplication;
     private Question currentQuestion;
     private boolean alreadyClicked = false;
+
+    private int correctAnswersCounter = 0;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -32,16 +34,15 @@ public class TrainingActivity extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_training);
+        setContentView(R.layout.activity_game);
         quizApplication = (QuizApplication) getApplicationContext();
         createQuestion();
 
         Context context = getApplicationContext();
-        CharSequence text = "Training Mode - Just for Fun";
+        CharSequence text = "You are now in Gaming Mode";
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, text, duration);
@@ -75,7 +76,6 @@ public class TrainingActivity extends AppCompatActivity {
                         alreadyClicked = true;
                         changeColor((Button) v);
                         validateAnswer((Button) v);
-
                     }
                 }
             });
@@ -91,6 +91,7 @@ public class TrainingActivity extends AppCompatActivity {
             return;
 
         if(button.getText().equals(currentQuestion.getCorrectAnswer())){
+            correctAnswersCounter++;
             styleCorrectChoosenButton(button);
         } else {
             Button correctButton = findCorrectButton(button);
@@ -100,10 +101,13 @@ public class TrainingActivity extends AppCompatActivity {
 
     protected void styleCorrectChoosenButton(final Button button){
         final Handler handler = new Handler();
+
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.buttonCorrectAnswer));
+                Toast.makeText(getApplicationContext(),"Correct answer number " + correctAnswersCounter,Toast.LENGTH_SHORT).show();
             }
         }, 1000);
         handler.postDelayed(new Runnable() {
@@ -129,9 +133,20 @@ public class TrainingActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                createQuestion();
+                //createQuestion();
+                //create game over activity here
+                GameActivity.this.finish();
             }
-        }, 2000);
+        }, 3000);
+
+        Intent intent = new Intent(this, GameOverActivity.class);
+        intent.putExtra("correctAnswersCounter", correctAnswersCounter);
+        startActivity(intent);
+
+        Intent intent_high = new Intent(this, HighscoreActivity.class);
+        intent.putExtra("correctAnswersCounter", correctAnswersCounter);
+        startActivity(intent);
+
     }
 
     protected Button findCorrectButton(Button clickedButton){
@@ -170,3 +185,4 @@ public class TrainingActivity extends AppCompatActivity {
         this.currentQuestion = currentQuestion;
     }
 }
+
